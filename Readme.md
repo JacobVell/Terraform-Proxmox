@@ -40,7 +40,6 @@ pm_password = "ТВОЙ_ПАРОЛЬ"
 ```
 # 📌 providers.tf
 ```bash
-```hcl
 terraform {
   required_providers {
     proxmox = {
@@ -57,17 +56,119 @@ provider "proxmox" {
   pm_tls_insecure = true
 }
 ```
+# 📌 variables.tf
+```bash
+variable "pm_user" {
+  type = string
+}
 
+variable "pm_password" {
+  type      = string
+  sensitive = true
+}
+```
+# main.tf
+########################################
+# 1) MASTER-NODE
+########################################
 
+resource "proxmox_vm_qemu" "master_node" {
+  name        = "master-node"
+  vmid        = 100
+  target_node = "pve"
 
+  iso      = "local:iso/ubuntu-22.04.5-live-server-amd64.iso"
+  qemu_os  = "l26"
+  agent    = 1
+  onboot   = true
 
+  sockets = 2
+  cores   = 2
+  memory  = 6144
 
+  scsihw   = "virtio-scsi-pci"
+  bootdisk = "scsi0"
 
+  disk {
+    size    = "45G"
+    type    = "scsi"
+    storage = "local-lvm"
+    discard = "on"
+  }
 
+  network {
+    model  = "virtio"
+    bridge = "vmbr0"
+  }
+}
 
+########################################
+# 2) DEVOPS CICD SERVER
+########################################
 
+resource "proxmox_vm_qemu" "devops_cicd" {
+  name        = "devops-CICD"
+  vmid        = 101
+  target_node = "pve"
 
+  iso      = "local:iso/ubuntu-22.04.5-live-server-amd64.iso"
+  qemu_os  = "l26"
+  agent    = 1
+  onboot   = true
 
+  sockets = 1
+  cores   = 4
+  memory  = 4096
+
+  scsihw   = "virtio-scsi-pci"
+  bootdisk = "scsi0"
+
+  disk {
+    size    = "45G"
+    type    = "scsi"
+    storage = "local-lvm"
+    discard = "on"
+  }
+
+  network {
+    model  = "virtio"
+    bridge = "vmbr0"
+  }
+}
+
+########################################
+# 3) PRODUCTION SERVER
+########################################
+
+resource "proxmox_vm_qemu" "production" {
+  name        = "production"
+  vmid        = 102
+  target_node = "pve"
+
+  iso      = "local:iso/ubuntu-22.04.5-live-server-amd64.iso"
+  qemu_os  = "l26"
+  agent    = 1
+  onboot   = true
+
+  sockets = 1
+  cores   = 3
+  memory  = 4096
+
+  scsihw   = "virtio-scsi-pci"
+  bootdisk = "scsi0"
+
+  disk {
+    size    = "50G"
+    type    = "scsi"
+    storage = "hdd-lvm"
+    discard = "on"
+  }
+
+  network {
+    model  = "virtio"
+    bridge = "vmbr0"
+  }
+}
 
 
 🚀 Запуск
