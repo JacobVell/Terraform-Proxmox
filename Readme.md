@@ -24,3 +24,15 @@ echo "deb [signed-by=/usr/share/keyrings/hashicorp.gpg] https://apt.releases.has
   > /etc/apt/sources.list.d/hashicorp.list
 
 apt update && apt install -y terraform
+
+⚙️ Настройка
+
+Создай файл:
+
+mkdir proxmox-3vm && cd proxmox-3vm
+
+
+Перед запуском создай файл terraform.tfvars:
+
+pm_user     = "root@pam"
+pm_password = "ТВОЙ_ПАРОЛЬ"
