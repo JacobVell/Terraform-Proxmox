@@ -67,7 +67,7 @@ variable "pm_password" {
   sensitive = true
 }
 ```
-# main.tf
+# 📌main.tf
 ########################################
 # 1) MASTER-NODE
 ########################################
