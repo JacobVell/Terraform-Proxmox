@@ -30,9 +30,9 @@ apt update && apt install -y terraform
 Создай файл:
 
 mkdir proxmox-3vm && cd proxmox-3vm
+```
 
-
-Перед запуском создай файл terraform.tfvars:
+"Необязательно, можно вручную написать пароль" Перед запуском создай файл terraform.tfvars:
 
 pm_user     = "root@pam"
 pm_password = "ТВОЙ_ПАРОЛЬ"
