@@ -18,22 +18,26 @@ Proxmox node: `pve`
 
 ```bash
 apt update && apt install -y gnupg software-properties-common curl
-
+```
+```bash
 curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp.gpg
+```
+```bash
 echo "deb [signed-by=/usr/share/keyrings/hashicorp.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" \
   > /etc/apt/sources.list.d/hashicorp.list
-
+```
+```bash
 apt update && apt install -y terraform
+```
 
 ⚙️ Настройка
 
 Создай файл:
 
+```bash
 mkdir proxmox-3vm && cd proxmox-3vm
 ```
-
 "Необязательно, можно вручную написать пароль" Перед запуском создай файл terraform.tfvars:
-
 ```bash
 pm_user     = "root@pam"
 pm_password = "ТВОЙ_ПАРОЛЬ"
@@ -170,15 +174,19 @@ resource "proxmox_vm_qemu" "production" {
     bridge = "vmbr0"
   }
 }
-
+```
 
 🚀 Запуск
+
 1) Инициализация Terraform
+```bash
 terraform init
-
+```
 3) Проверка изменений
+```bash
 terraform plan
-
+```
 4) Создание всех виртуальных машин
+```bash
 terraform apply -auto-approve
 ```
